@@ -53,6 +53,7 @@ class ItemsTable extends React.PureComponent {
     const {
       decrementItem,
       incrementItem,
+      selectHintItem,
       spheres,
       trackerState,
       trackSpheres,
@@ -75,6 +76,7 @@ class ItemsTable extends React.PureComponent {
         itemCount={itemCount}
         itemName={itemName}
         locations={locations}
+        selectHintItem={selectHintItem}
         setSelectedItem={this.setSelectedItem}
         spheres={spheres}
       />
@@ -257,6 +259,7 @@ ItemsTable.propTypes = {
   backgroundColor: PropTypes.string,
   decrementItem: PropTypes.func.isRequired,
   incrementItem: PropTypes.func.isRequired,
+  selectHintItem: PropTypes.func.isRequired,
   spheres: PropTypes.instanceOf(Spheres).isRequired,
   trackerState: PropTypes.instanceOf(TrackerState).isRequired,
   trackSpheres: PropTypes.bool.isRequired,

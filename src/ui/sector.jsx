@@ -13,6 +13,7 @@ import ContextMenuWrapper from './context-menu-wrapper';
 import Images from './images';
 import Item from './item';
 import KeyDownWrapper from './key-down-wrapper';
+import MiddleClickWrapper from './middle-click-wrapper';
 import RequirementsTooltip from './requirements-tooltip';
 import Tooltip from './tooltip';
 
@@ -68,6 +69,7 @@ class Sector extends React.PureComponent {
       decrementItem,
       incrementItem,
       island,
+      selectHintItem,
       setSelectedItem,
       spheres,
       trackerState,
@@ -99,6 +101,7 @@ class Sector extends React.PureComponent {
               itemCount={chuCounts[index]}
               itemName={jelly}
               locations={[]}
+              selectHintItem={selectHintItem}
               setSelectedItem={setSelectedItem}
               spheres={spheres}
             />
@@ -220,6 +223,7 @@ class Sector extends React.PureComponent {
       decrementItem,
       incrementItem,
       island,
+      selectHintItem,
       setSelectedItem,
       spheres,
       trackerState,
@@ -250,6 +254,7 @@ class Sector extends React.PureComponent {
           itemCount={chartCount}
           itemName={chartName}
           locations={locations}
+          selectHintItem={selectHintItem}
           setSelectedItem={setSelectedItem}
           spheres={spheres}
         />
@@ -436,9 +441,12 @@ class Sector extends React.PureComponent {
       clearSelectedLocation,
       island,
       rightClickToClearAll,
+      selectHintLocation,
       setSelectedLocation,
       updateOpenedLocation,
     } = this.props;
+
+    const selectHintLocationFunc = () => selectHintLocation(island, null, true);
 
     const updateOpenedLocationFunc = () => {
       clearSelectedLocation();
@@ -462,11 +470,13 @@ class Sector extends React.PureComponent {
     return (
       <div
         className="sea-sector"
+        onAuxClick={MiddleClickWrapper.onMiddleClick(selectHintLocationFunc)}
         onBlur={clearSelectedLocation}
         onClick={updateOpenedLocationFunc}
         onContextMenu={ContextMenuWrapper.onRightClick(clearAllLocationsFunc)}
         onFocus={setSelectedLocationFunc}
         onKeyDown={KeyDownWrapper.onSpaceKey(updateOpenedLocationFunc)}
+        onMouseDown={MiddleClickWrapper.preventAutoScroll}
         onMouseOver={setSelectedLocationFunc}
         onMouseOut={clearSelectedLocation}
         role="button"
@@ -498,6 +508,8 @@ Sector.propTypes = {
   showSalvageCorpLocations: PropTypes.bool.isRequired,
   showCyclosLocations: PropTypes.bool.isRequired,
   showGhostShipLocations: PropTypes.bool.isRequired,
+  selectHintItem: PropTypes.func.isRequired,
+  selectHintLocation: PropTypes.func.isRequired,
   setSelectedChartForIsland: PropTypes.func.isRequired,
   setSelectedEntrance: PropTypes.func.isRequired,
   setSelectedExit: PropTypes.func.isRequired,
